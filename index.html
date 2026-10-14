@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ایران</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0b0d0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* عکس پرچم شیر و خورشید */
+        .flag-img {
+            max-width: 95%;
+            max-height: 90vh;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+            border-radius: 6px;
+        }
+
+        /* پیغام راهنما روی صفحه */
+        .play-hint {
+            position: absolute;
+            bottom: 25px;
+            color: #ffffff;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            transition: opacity 0.5s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body onclick="playAudio()">
+
+    <div class="container">
+        <!-- تصویر پرچم آپلود شده -->
+        <img class="flag-img" src="flag.jpg" alt="پرچم شیر و خورشید">
+        
+        <div id="hint" class="play-hint">برای پخش / توقف آهنگ روی صفحه لمس کنید</div>
+    </div>
+
+    <!-- فایل موزیک آپلود شده -->
+    <audio id="bg-music" loop autoplay src="music.mp3"></audio>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const hint = document.getElementById('hint');
+
+        // سعی برای پخش خودکار هنگام باز شدن صفحه
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.play().then(() => {
+                hint.style.opacity = '0';
+            }).catch(() => {
+                // اگر مرورگر پخش خودکار را بلاک کرد
+            });
+        });
+
+        // پخش یا توقف با لمس صفحه
+        function playAudio() {
+            if (audio.paused) {
+                audio.play();
+                hint.style.opacity = '0';
+            } else {
+                audio.pause();
+                hint.style.opacity = '1';
+            }
+        }
+    </script>
+</body>
+</html>
