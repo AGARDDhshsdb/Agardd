@@ -19,8 +19,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             cursor: pointer;
+            user-select: none;
         }
 
         .container {
@@ -30,59 +31,66 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            padding: 20px;
         }
 
-        /* عکس پرچم شیر و خورشید */
+        /* تصویر پرچم شیر و خورشید با افکت و سایه زیبا */
         .flag-img {
-            max-width: 95%;
-            max-height: 90vh;
+            max-width: 90%;
+            max-height: 85vh;
             object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
-            border-radius: 6px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
         }
 
-        /* پیغام راهنما روی صفحه */
+        .container:active .flag-img {
+            transform: scale(0.98);
+        }
+
+        /* راهنمای لمس صفحه */
         .play-hint {
             position: absolute;
-            bottom: 25px;
+            bottom: 30px;
             color: #ffffff;
             font-size: 13px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px 18px;
-            border-radius: 20px;
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.75);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
             pointer-events: none;
-            transition: opacity 0.5s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: opacity 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body onclick="playAudio()">
 
     <div class="container">
-        <!-- تصویر پرچم آپلود شده -->
-        <img class="flag-img" src="flag.jpg" alt="پرچم شیر و خورشید">
+        <!-- عکس باکیفیت پرچم شیر و خورشید مستقیم از اینترنت -->
+        <img class="flag-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Iran_%2(1964-1980%).svg/1280px-Flag_of_Iran_%2(1964-1980%).svg.png" alt="پرچم شیر و خورشید">
         
         <div id="hint" class="play-hint">برای پخش / توقف آهنگ روی صفحه لمس کنید</div>
     </div>
 
-    <!-- فایل موزیک آپلود شده -->
+    <!-- فایل آهنگ آپلود شده شما در گیت‌هاب -->
     <audio id="bg-music" loop autoplay src="music.mp3"></audio>
 
     <script>
         const audio = document.getElementById('bg-music');
         const hint = document.getElementById('hint');
 
-        // سعی برای پخش خودکار هنگام باز شدن صفحه
+        // تلاش برای پخش خودکار هنگام ورود
         window.addEventListener('DOMContentLoaded', () => {
             audio.play().then(() => {
                 hint.style.opacity = '0';
             }).catch(() => {
-                // اگر مرورگر پخش خودکار را بلاک کرد
+                // در صورت بلاک شدن توسط مرورگر، پیغام نمایش داده می‌ماند
             });
         });
 
-        // پخش یا توقف با لمس صفحه
+        // پخش و توقف با کلیک/لمس روی صفحه
         function playAudio() {
             if (audio.paused) {
                 audio.play();
